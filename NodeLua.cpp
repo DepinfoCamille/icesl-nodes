@@ -6,16 +6,19 @@ using namespace std;
 
 
 //-------------------------------------------------------
+//open master.lua and read all
 void Node::onChange(){
     GraphMaker::getInstance().onChange();
 }
+
+//both 2 following functions : change name when new out- or input
 
 //-------------------------------------------------------
 void Node::makeNewInput(string name){
     if(getPrevNamed().find(name) != getPrevNamed().end())return;
     getPrevNamed().insert(std::make_pair(name,make_pair(nullptr,""))); 
-	// we add the name of the node to the map with value the tuple (nullptr,"")
-    getInputName().push_back(name);
+	// add the name of the node to the map with value the tuple (nullptr,"")
+    getInputName().push_back(name); // add the name of the node added to the name of input nodes
 }
 
 //-------------------------------------------------------
@@ -23,11 +26,12 @@ void Node::makeNewOutput(string name){
 
     if(getNextNamed().find(name) != getNextNamed().end())return;
     getNextNamed()[name] = nullptr;
-    getoutputName().push_back(name);
-    return;
+    getoutputName().push_back(name); // add the name of the node added to the name of output nodes
+    return;  
 }
 
 //-------------------------------------------------------
+// remove connection in a name when a connection is removed on the window 
 void Node::removeConnectionTo(Node* n)
 {
     for(auto edge: prevNamed){
