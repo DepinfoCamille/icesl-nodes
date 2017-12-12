@@ -16,11 +16,9 @@ private:
   t_FileTime m_timeStamp;
 
 protected:
-  std::map<std::string,std::pair<Node*,std::string>> prevNamed;
-  std::map<std::string,Node*> nextNamed;
-  std::vector<std::string> inputName;
-  std::vector<std::string> outputName;
-  std::map<std::string,Tweak*> tweaks;
+	std::vector<Node*> inputNodes;
+	std::vector<Node*> outputNodes;
+	std::map<std::string,Tweak*> tweaks;
 
   void makeNewInput(std::string name);
   void makeNewOutput(std::string name);
@@ -87,10 +85,9 @@ public:
     }
     sl_assert(false);
   }
-  std::map<std::string,std::pair<Node*,std::string>>& getPrevNamed(){return prevNamed;}
-  std::map<std::string,Node*>& getNextNamed(){return nextNamed;}
-  std::vector<std::string>& getInputName(){return inputName;}
-  std::vector<std::string>& getoutputName(){return outputName;  }
+  std::vector<Node*>& getInputNodes() { return inputNodes; }
+  std::vector<Node*>& getOutputNodes() { return outputNodes; }
+
   std::string getPath(){return m_Path;}
   void changePath(std::string path,Project p);
   std::string getRelativePath(){return m_RelativePath;}
