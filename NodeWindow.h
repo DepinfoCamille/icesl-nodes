@@ -28,13 +28,13 @@ public:
     NodeWindow():GenericWindow(){}
     NodeWindow(Node*n, const char *name,v2i pos):GenericWindow(name,pos),node(n)
     {
-        previousConnectedWindow.resize(n->getInputName().size());
+        previousConnectedWindow.resize(n->getInputNodes().size());
     }
 
     NodeWindow(Node*n, const char *name):GenericWindow(name),node(n)
     {
         m_show = true;
-        previousConnectedWindow.resize(n->getInputName().size());
+        previousConnectedWindow.resize(n->getInputNodes().size());
     }
 
     void drawInputValue();
@@ -43,16 +43,16 @@ public:
     void connectPreviousWindow(NodeWindow* prev, int inpos, int outpos);
     void connectPreviousWindow(NodeWindow* prev,std::string in, std::string out);
     void nodeChange(){
-        previousConnectedWindow.resize(node->getInputName().size());
+        previousConnectedWindow.resize(node->getInputNodes().size());
     }
 
     Node* getNode(){return node;}
     void setNode(Node* n){
         node =n;
-        previousConnectedWindow.resize(n->getInputName().size());
+        previousConnectedWindow.resize(n->getInputNodes().size());
     }
-    ImVec2 GetInputSlotPos(int slot_no)   const { return ImVec2(m_pos[0], m_pos[1] + m_size[1] * ((float)slot_no+1) / (node->getPrevNamed().size()+1.0)); }
-    ImVec2 GetOutputSlotPos(int slot_no)  const { return ImVec2(m_pos[0] + m_size[0], m_pos[1] + m_size[1] * ((float)slot_no+1) / (node->getNextNamed().size()+1.0)); }
+    ImVec2 GetInputSlotPos(int slot_no)   const { return ImVec2(m_pos[0], m_pos[1] + m_size[1] * ((float)slot_no+1) / (node->getInputNodes().size()+1.0)); }
+    ImVec2 GetOutputSlotPos(int slot_no)  const { return ImVec2(m_pos[0] + m_size[0], m_pos[1] + m_size[1] * ((float)slot_no+1) / (node->getInputNodes().size()+1.0)); }
 
     bool display();
     void renderAndPick(NodeSelecter &ns, bool mouseDown);

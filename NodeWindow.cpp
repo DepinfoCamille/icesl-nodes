@@ -38,9 +38,18 @@ bool NodeWindow::display(){
     ForIndex(i,previousConnectedWindow.size()){
         NodeWindow* w= previousConnectedWindow[i];
         if(w == nullptr)continue;
-        string s = node->getPrevNamed()[node->getInputName()[i]].second;
+        //string s; //trouver le nom de l'output reliée 
+		//à l'input pas nécessaire on peut trouver directement l'indice
+
         Node* n = w->node;
-        int outputSlot = n->getIndiceOutByName(s);
+		vector<Node*> outputs = n->getOutputNodes();
+		int outputSlot;
+		for (int i = 0; i < outputs.size();++i) {
+			if (outputs[i] == node) {
+				outputSlot = i;
+				break;
+			}
+		}
         ImVec2 p1 = w->GetOutputSlotPos(outputSlot);
         ImVec2 p2 = GetInputSlotPos(i);
         ImVec2 p3 = ImVec2(p1.x+50,p1.y);
@@ -63,7 +72,7 @@ void NodeWindow::renderAndPick(NodeSelecter &ns, bool mouseDown){
 
 
     //draw input circles
-    ForIndex(i,node->getInputName().size()){
+    ForIndex(i,node->getInputNodes().size()){
         v2i Cpos = v2i(GetInputSlotPos(i).x,GetInputSlotPos(i).y);
         if(sqLength(Cpos-Mpos) < 100){
             color =ImColor(150,0,0,150);
@@ -81,7 +90,7 @@ void NodeWindow::renderAndPick(NodeSelecter &ns, bool mouseDown){
     }
 
     //draw output circles
-    ForIndex(i,node->getoutputName().size()){
+    ForIndex(i,node->getOutputNodes().size()){
         v2i Cpos = v2i(GetOutputSlotPos(i).x,GetOutputSlotPos(i).y);
         if(sqLength(Cpos-Mpos) < 100){
             color =ImColor(150,0,0,150);
